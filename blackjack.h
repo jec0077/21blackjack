@@ -35,8 +35,8 @@ int dealt_card_count = 0;
 
 struct Card
 {
-    char suit; // (S)PADE, (H)EART, (C)LUB, (D)IAMOND
-    char rank; // A, K, Q, J, T, 9-2
+    char suit;
+    char rank;
 };
 
 void print_card(struct Card c)
@@ -320,6 +320,17 @@ void dealer_play(struct Deck *d, struct Hand *dealer)
 void who_won(struct Hand *dealer, struct Hand **hs, int numofplayers)
 {
     return;
+}
+
+void end_game(struct Deck *d, struct Hand *dealer, struct Hand **hs, int numofplayers)
+{
+    free(d);
+    free(dealer);
+    for (int i = 0; i < numofplayers; i++)
+    {
+        free(hs[i]);
+    }
+    numofplayers = 0;
 }
 
 #endif

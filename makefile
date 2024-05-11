@@ -8,5 +8,8 @@ blackjack: blackjack.o
 blackjack.o: blackjack.c
 	gcc $(OPTS) -c $<
 
+valgrind: blackjack
+	valgrind --leak-check=full ./blackjack
+
 clean:
 	rm -rf *.o blackjack

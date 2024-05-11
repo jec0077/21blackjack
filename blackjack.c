@@ -65,5 +65,6 @@ int main(int argc, char *argv[])
         scanf(" %c", &tobecontinued);
     }
 
+    end_game(main_deck, dealer, players, num_players);
     return 0;
 }
