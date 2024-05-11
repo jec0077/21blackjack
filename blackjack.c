@@ -2,7 +2,7 @@
  * @file blackjack.c
  * @author Josh Campbell (joshecamp04@gmail.com)
  * @brief Blackjack Game main C file
- * @version 0.2.0
+ * @version 0.3.0
  * @date 2024-05-11
  *
  * @copyright Copyright (c) 2024
@@ -20,9 +20,9 @@ int main(int argc, char *argv[])
     }
     else
     {
-        if (atoi(argv[1]) > 4)
+        if (atoi(argv[1]) > 3)
         {
-            num_players += 4;
+            num_players += 3;
         }
         else
         {
@@ -45,10 +45,10 @@ int main(int argc, char *argv[])
 
     while (toupper(tobecontinued) != 'N')
     {
-        printf("~~~~~~~~~~~~~~~\n");
+        printf("~~~~~~~~~~~~~~~~~~~~~~~~~\n");
         printf("DEALING NEW CARDS...\n\n");
         setup_hands(main_deck, dealer, players, num_players);
-        printf("~~~~~~~~~~~~~~~\n");
+        printf("~~~~~~~~~~~~~~~~~~~~~~~~~\n");
 
         for (int i = 0; i < num_players; i++)
         {
@@ -57,11 +57,11 @@ int main(int argc, char *argv[])
         }
 
         printf("(!) DEALER's turn! They're @ %d\n", get_hand_value(dealer));
-        dealer_play(main_deck, dealer);
+        auto_play(main_deck, dealer);
 
         who_won(dealer, players, num_players);
 
-        printf("\n\n(!) CONTINUE? Y/N ");
+        printf("\n(!) CONTINUE? Y/N ");
         scanf(" %c", &tobecontinued);
     }
 

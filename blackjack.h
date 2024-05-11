@@ -2,7 +2,7 @@
  * @file blackjack.h
  * @author Josh Campbell (joshecamp04@gmail.com)
  * @brief Blackjack Game Header file
- * @version 0.2.0
+ * @version 0.3.0
  * @date 2024-05-11
  *
  * @copyright Copyright (c) 2024
@@ -19,13 +19,6 @@
 #include <string.h>
 #include <time.h>
 #include <unistd.h>
-
-#define exit(N)         \
-    {                   \
-        fflush(stdout); \
-        fflush(stderr); \
-        _exit(N);       \
-    }
 
 #define N_CARDS 52
 #define N_SUITS 4
@@ -239,7 +232,7 @@ void player_input(struct Deck *d, struct Hand *h)
         int bob = bust_or_blackjack(h);
         if (bob > 0)
         {
-            printf("BLACKJACK!!!\n");
+            printf("BLACKJACK!!!\n\n");
             return;
         }
         else if (bob < 0)
@@ -269,7 +262,7 @@ void setup_hands(struct Deck *d, struct Hand *dealer, struct Hand **hs, int numo
     print_hand(dealer);
 }
 
-void dealer_play(struct Deck *d, struct Hand *dealer)
+void auto_play(struct Deck *d, struct Hand *dealer)
 {
     do
     {
