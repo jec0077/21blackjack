@@ -2,7 +2,7 @@
  * @file blackjack.c
  * @author Josh Campbell (joshecamp04@gmail.com)
  * @brief Blackjack Game main C file
- * @version 0.1.0
+ * @version 0.2.0
  * @date 2024-05-11
  *
  * @copyright Copyright (c) 2024
@@ -20,9 +20,9 @@ int main(int argc, char *argv[])
     }
     else
     {
-        if (atoi(argv[1]) > 3)
+        if (atoi(argv[1]) > 4)
         {
-            num_players += 3;
+            num_players += 4;
         }
         else
         {
@@ -30,7 +30,7 @@ int main(int argc, char *argv[])
         }
     }
 
-    printf("BLACKJACK %d PLAYERS\n\n", num_players);
+    printf("BLACKJACK %d PLAYER(s)\n\n", num_players);
 
     struct Hand *dealer = init_hand();
     struct Hand *players[num_players];
@@ -52,16 +52,16 @@ int main(int argc, char *argv[])
 
         for (int i = 0; i < num_players; i++)
         {
-            printf("PLAYER %d's turn! You're @ %d\n", i + 1, get_hand_value(players[i]));
+            printf("(!) PLAYER %d's turn! You're @ %d\n", i + 1, get_hand_value(players[i]));
             player_input(main_deck, players[i]);
         }
 
-        printf("DEALER's turn! You're @ %d\n", get_hand_value(dealer));
-        player_input(main_deck, dealer);
+        printf("(!) DEALER's turn! They're @ %d\n", get_hand_value(dealer));
+        dealer_play(main_deck, dealer);
 
         who_won(dealer, players, num_players);
 
-        printf("\n\nCONTINUE? Y/N ");
+        printf("\n\n(!) CONTINUE? Y/N ");
         scanf(" %c", &tobecontinued);
     }
 

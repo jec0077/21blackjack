@@ -2,7 +2,7 @@
  * @file blackjack.h
  * @author Josh Campbell (joshecamp04@gmail.com)
  * @brief Blackjack Game Header file
- * @version 0.1.0
+ * @version 0.2.0
  * @date 2024-05-11
  *
  * @copyright Copyright (c) 2024
@@ -13,11 +13,12 @@
 #define BJ_H
 
 #include <stdio.h>
-#include <stdbool.h>
 #include <stdlib.h>
+#include <stdbool.h>
+#include <ctype.h>
 #include <string.h>
 #include <time.h>
-#include <ctype.h>
+#include <unistd.h>
 
 #define exit(N)         \
     {                   \
@@ -105,7 +106,7 @@ void print_hand(struct Hand *h)
     {
         if (h->empty)
         {
-            printf("HAND IS EMPTY!\n");
+            printf("(!) HAND IS EMPTY!\n");
             return;
         }
 
@@ -216,7 +217,7 @@ void player_input(struct Deck *d, struct Hand *h)
         input = '0';
         printf("H - Hit\n");
         printf("S - Stand\n");
-        printf("MAKE YOUR MOVE: ~");
+        printf("(!) MAKE YOUR MOVE: ~");
         scanf(" %c", &input);
         printf("\n");
 
@@ -226,24 +227,24 @@ void player_input(struct Deck *d, struct Hand *h)
             draw_card(d, h);
             print_hand(h);
             printf("Hand total is: %d\n\n", get_hand_value(h));
-
-            int bob = bust_or_blackjack(h);
-            if (bob > 0)
-            {
-                printf("BLACKJACK!!!\n");
-                return;
-            }
-            else if (bob < 0)
-            {
-                printf("BUSTED!!!\n\n");
-                return;
-            }
         }
         else if (toupper(input) == 'S')
         {
             printf("You STAND\n");
             print_hand(h);
             printf("Hand total is: %d\n\n", get_hand_value(h));
+            return;
+        }
+
+        int bob = bust_or_blackjack(h);
+        if (bob > 0)
+        {
+            printf("BLACKJACK!!!\n");
+            return;
+        }
+        else if (bob < 0)
+        {
+            printf("BUSTED!!!\n\n");
             return;
         }
     }
@@ -268,24 +269,57 @@ void setup_hands(struct Deck *d, struct Hand *dealer, struct Hand **hs, int numo
     print_hand(dealer);
 }
 
+void dealer_play(struct Deck *d, struct Hand *dealer)
+{
+    do
+    {
+        if (get_hand_value(dealer) < 17)
+        {
+            printf("Dealer HIT\n");
+            draw_card(d, dealer);
+            print_hand(dealer);
+            printf("Hand total is: %d\n\n", get_hand_value(dealer));
+        }
+        else if (get_hand_value(dealer) == BJ)
+        {
+            print_hand(dealer);
+            printf("Hand total is: %d\n\n", get_hand_value(dealer));
+            printf("DEALER BLACKJACK!!!\n");
+            return;
+        }
+        else if (get_hand_value(dealer) > BJ)
+        {
+            print_hand(dealer);
+            printf("Hand total is: %d\n\n", get_hand_value(dealer));
+            printf("DEALER BUSTED!!!\n");
+            return;
+        }
+        else
+        {
+            printf("Dealer STAND\n");
+            print_hand(dealer);
+            printf("Hand total is: %d\n\n", get_hand_value(dealer));
+            return;
+        }
+        sleep(1);
+
+        int bob = bust_or_blackjack(dealer);
+        if (bob > 0)
+        {
+            printf("BLACKJACK!!!\n");
+            return;
+        }
+        else if (bob < 0)
+        {
+            printf("BUSTED!!!\n\n");
+            return;
+        }
+    } while (bust_or_blackjack(dealer) == 0);
+}
+
 void who_won(struct Hand *dealer, struct Hand **hs, int numofplayers)
 {
     return;
 }
-
-/**
- * Card: class - int:suit, int:rank, bool:ace; funcs - get_suit, get_rank, get_card
- * Hand: class - cards[], int:value; funcs - add_card, draw_card, get_value
- * Deck:
- * make_bet
- * deal_cards
- * hit
- * stand
- * game_step
- * game_exit
- * player_input
- * intro
- *
- */
 
 #endif
